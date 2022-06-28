@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Overlay = styled.div`
   background-color: rgba(0,0,0,0.6);
   backdrop-filter: blur(5px);
-  position: absolute;
+  position: fixed;
   height:100%;
   width:100%;
   left: 0;
@@ -23,6 +23,9 @@ export const Container = styled.div`
 
   h1 {
     font-size: 22px;
+    color: ${({ theme, danger }) => (
+    danger ? theme.colors.danger.main : theme.colors.grey[900]
+  )};
   }
 
   p {

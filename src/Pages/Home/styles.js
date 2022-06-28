@@ -31,12 +31,9 @@ export const Header = styled.header`
   }
 `;
 
-export const ListContainer = styled.div`
+export const ListHeader = styled.header`
   margin-top: 24px;
-
-  header {
-    margin-bottom: 8px;
-  }
+  margin-bottom: 8px;
 
   button {
     background-color: transparent;
@@ -48,6 +45,11 @@ export const ListContainer = styled.div`
       color: ${({ theme }) => theme.colors.primary.main};
       margin-right: 8px;
       font-weight: bold;
+    }
+
+    img {
+      transform: rotate(${({ orderBy }) => (orderBy === 'DESC' ? 0 : 180)}deg);
+      transition: transform 0.3s ease-in;
     }
 
   }
