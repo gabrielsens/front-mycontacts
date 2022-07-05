@@ -1,9 +1,11 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import {
   useEffect, useState, useMemo, useCallback,
 } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  Container, Header, ListHeader, Card, InputSearchContainer, ErrorContainer,
+  Container, Header, ListHeader, Card, InputSearchContainer,
+  ErrorContainer, EmptyListContainer, SearchNotFoundContainer,
 } from './styles';
 
 // import APIError from '../../errors/APIError';
@@ -11,6 +13,8 @@ import sad from '../../assets/images/sad.svg';
 import arrow from '../../assets/images/icons/arrow.svg';
 import edit from '../../assets/images/icons/edit.svg';
 import trash from '../../assets/images/icons/trash.svg';
+import emptyBox from '../../assets/images/empty-box.svg';
+import magnifierQuestion from '../../assets/images/magnifier-question.svg';
 
 import Button from '../../components/Button';
 import Loader from '../../components/Loader';
@@ -31,10 +35,9 @@ export default function Home() {
     try {
       setIsLoading(true);
       const contactsList = await ContactsService.listContacts(orderBy);
-      if (contactsList) {
-        setHasError(false);
-        setContacts(contactsList);
-      }
+      // const contactsList = []; await ContactsService.listContacts(orderBy);
+      setHasError(false);
+      setContacts(contactsList);
     } catch (error) {
       // if (error instanceof APIError) {}
       // eslint-disable-next-line no-console
@@ -64,11 +67,23 @@ export default function Home() {
   return (
     <Container>
       <Loader isLoading={isLoading} />
-      <InputSearchContainer>
-        <input type="text" value={searchTerm} placeholder="Pesquise pelo nome..." onChange={handleChangeSearchTerm} />
-      </InputSearchContainer>
-      <Header hasError={hasError}>
-        {!hasError && (
+
+      {(contacts.length > 0 && !hasError) && (
+        <InputSearchContainer>
+          <input type="text" value={searchTerm} placeholder="Pesquise pelo nome..." onChange={handleChangeSearchTerm} />
+        </InputSearchContainer>
+      )}
+      <Header justifyContent={
+        // eslint-disable-next-line no-nested-ternary
+          (hasError
+            ? 'flex-end'
+            : (contacts.length > 0
+              ? 'space-between'
+              : 'center')
+          )
+        }
+      >
+        {(!hasError && contacts.length > 0) && (
           <strong>
             {filteredContacts.length}
             {' '}
@@ -96,6 +111,17 @@ export default function Home() {
 
       {!hasError && (
         <>
+          {(contacts.length < 1 && !isLoading) && (
+            <EmptyListContainer>
+              <img src={emptyBox} alt="Lista de Contatos Vazia" />
+              <p>
+                Você ainda não possui nenhum contato cadastrado!
+                Clique no Botão <strong>“Novo Contato”</strong> à cima
+                para cadastrar o seu primeiro!
+              </p>
+            </EmptyListContainer>
+          )}
+
           {filteredContacts.length > 0 && (
           <ListHeader orderBy={orderBy}>
             <button type="button" onClick={handleToggleOrderBy}>
@@ -103,6 +129,13 @@ export default function Home() {
               <img src={arrow} alt="Arrow" />
             </button>
           </ListHeader>
+          )}
+
+          { (contacts.length > 0 && filteredContacts.length < 1) && (
+            <SearchNotFoundContainer>
+              <img src={magnifierQuestion} alt="Nenhum contato encontrado" />
+              <p>Nenhum contato foi encontrato para <strong>“{searchTerm}”</strong>.</p>
+            </SearchNotFoundContainer>
           )}
 
           {filteredContacts.map((contact) => (
