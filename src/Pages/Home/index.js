@@ -103,7 +103,9 @@ export default function Home() {
 
             <strong>Ocorreu um erro ao obter seus contatos!</strong>
 
-            <Button type="button" onClick={handleTryAgain}>Tentar Novamente</Button>
+            <Button type="button" onClick={handleTryAgain}>
+              Tentar Novamente
+            </Button>
 
           </div>
         </ErrorContainer>
