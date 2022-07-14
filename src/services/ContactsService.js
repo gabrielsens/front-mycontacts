@@ -2,7 +2,7 @@ import HttpClient from './utils/HttpClient';
 
 class ContactsService {
   constructor() {
-    this.httpClient = new HttpClient('http://localhost:3333');
+    this.httpClient = new HttpClient('http://192.168.0.3:3333');
   }
 
   listContacts(orderBy) {
@@ -27,6 +27,10 @@ class ContactsService {
     return this.httpClient.put(`/contacts/${id}`, {
       body: contact,
     });
+  }
+
+  deleteContact(id) {
+    return this.httpClient.delete(`/contacts/${id}`);
   }
 }
 
