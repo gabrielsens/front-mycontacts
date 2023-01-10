@@ -1,4 +1,26 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+const fadeIn = keyframes`
+  from {
+    /* Estilos iniciais */
+    opacity: 0;
+  }
+  to {
+    /*  Estilos finais  - forwards para manter o estilo */
+    opacity: 1;
+  }
+`;
+
+const scaleIn = keyframes`
+  from {
+    /* Estilos iniciais */
+    transform: scale(0)
+  }
+  to {
+    /*  Estilos finais  - forwards para manter o estilo */
+    transform: scale(1)
+  }
+`;
 
 export const Overlay = styled.div`
   background-color: rgba(0,0,0,0.6);
@@ -11,6 +33,7 @@ export const Overlay = styled.div`
   display: flex;
   justify-content:center;
   align-items: center;
+  animation: ${fadeIn} 0.3s;
 `;
 
 export const Container = styled.div`
@@ -20,6 +43,7 @@ export const Container = styled.div`
   border-radius: 4px;
   padding:24px;
   box-shadow: 0px 4px 10px rgba(0,0,0,0.04);
+  animation: ${scaleIn} 0.3s;
 
   > h1 {
     font-size: 22px;

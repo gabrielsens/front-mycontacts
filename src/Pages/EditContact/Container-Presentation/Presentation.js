@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
-import PageHeader from '../../components/PageHeader';
-import ContactForm from '../../components/ContactForm';
-import Loader from '../../components/Loader';
+import PageHeader from '../../../components/PageHeader';
+import ContactForm from '../../../components/ContactForm';
+import Loader from '../../../components/Loader';
 
 export default function Presentation({
   isLoading, contactName, contactFormRef, onSubmit,
