@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 
 const fadeIn = keyframes`
   from {
@@ -11,6 +11,17 @@ const fadeIn = keyframes`
   }
 `;
 
+const fadeOut = keyframes`
+  from {
+    /* Estilos iniciais */
+    opacity: 1;
+  }
+  to {
+    /*  Estilos finais  - forwards para manter o estilo */
+    opacity: 0;
+  }
+`;
+
 const scaleIn = keyframes`
   from {
     /* Estilos iniciais */
@@ -19,6 +30,17 @@ const scaleIn = keyframes`
   to {
     /*  Estilos finais  - forwards para manter o estilo */
     transform: scale(1)
+  }
+`;
+
+const scaleOut = keyframes`
+  from {
+    /* Estilos iniciais */
+    transform: scale(1)
+  }
+  to {
+    /*  Estilos finais  - forwards para manter o estilo */
+    transform: scale(0)
   }
 `;
 
@@ -34,6 +56,8 @@ export const Overlay = styled.div`
   justify-content:center;
   align-items: center;
   animation: ${fadeIn} 0.3s;
+
+  ${({ isLeaving }) => isLeaving && css`animation: ${fadeOut} 0.3s forwards;`}
 `;
 
 export const Container = styled.div`
@@ -44,6 +68,9 @@ export const Container = styled.div`
   padding:24px;
   box-shadow: 0px 4px 10px rgba(0,0,0,0.04);
   animation: ${scaleIn} 0.3s;
+
+  ${({ isLeaving }) => isLeaving && css`animation: ${scaleOut} 0.3s forwards;`}
+
 
   > h1 {
     font-size: 22px;
