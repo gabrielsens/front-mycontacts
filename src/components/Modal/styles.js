@@ -25,22 +25,22 @@ const fadeOut = keyframes`
 const scaleIn = keyframes`
   from {
     /* Estilos iniciais */
-    transform: scale(0)
+    transform: scale(0);
   }
   to {
     /*  Estilos finais  - forwards para manter o estilo */
-    transform: scale(1)
+    transform: scale(1);
   }
 `;
 
 const scaleOut = keyframes`
   from {
     /* Estilos iniciais */
-    transform: scale(1)
+    transform: scale(1);
   }
   to {
     /*  Estilos finais  - forwards para manter o estilo */
-    transform: scale(0)
+    transform: scale(0);
   }
 `;
 

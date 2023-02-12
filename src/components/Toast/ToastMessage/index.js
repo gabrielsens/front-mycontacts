@@ -1,12 +1,17 @@
 import PropTypes from 'prop-types';
 
-import { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import { Container } from './styles';
 
 import xCircleIcon from '../../../assets/images/icons/x-circle.svg';
 import checkCircle from '../../../assets/images/icons/check-circle.svg';
 
-export default function ToastMessage({ message, onRemoveMessage }) {
+function ToastMessage({
+  message,
+  onRemoveMessage,
+  isLeaving,
+  animatedRef,
+}) {
   useEffect(() => {
     const timeoutId = setTimeout(
       () => {
@@ -22,9 +27,12 @@ export default function ToastMessage({ message, onRemoveMessage }) {
   function handleRemoveToast() {
     onRemoveMessage(message.id);
   }
+
   return (
     <Container
       type={message.type}
+      isLeaving={isLeaving}
+      ref={animatedRef}
       tabIndex={0}
       role="button"
       onClick={handleRemoveToast}
@@ -36,6 +44,8 @@ export default function ToastMessage({ message, onRemoveMessage }) {
   );
 }
 
+export default memo(ToastMessage);
+
 ToastMessage.propTypes = {
   message: PropTypes.shape({
     id: PropTypes.number.isRequired,
@@ -44,4 +54,6 @@ ToastMessage.propTypes = {
     duration: PropTypes.number,
   }).isRequired,
   onRemoveMessage: PropTypes.func.isRequired,
+  isLeaving: PropTypes.bool.isRequired,
+  animatedRef: PropTypes.shape().isRequired,
 };

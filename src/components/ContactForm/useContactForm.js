@@ -6,7 +6,7 @@ import CategoriesService from '../../services/CategoriesService';
 
 import isEmailValid from '../../utils/isEmailValid';
 import formatPhone from '../../utils/formatPhone';
-import useSafeAsyncState from '../../hooks/useSageAsyncState';
+import useSafeAsyncState from '../../hooks/useSafeAsyncState';
 
 export default function useContactForm(onSubmit, ref) {
   const [name, setName] = useState('');
