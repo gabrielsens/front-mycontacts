@@ -45,7 +45,7 @@ export const Container = styled.div`
   cursor: pointer;
   animation: ${messageIn} 0.5s;
 
-  ${({ isLeaving }) => isLeaving && css`animation: ${messageOut} 0.3s;`}
+  ${({ isLeaving }) => isLeaving && css`animation: ${messageOut} 0.3s forwards;`}
 
   &:focus {
 
