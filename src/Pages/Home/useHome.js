@@ -1,5 +1,5 @@
 import {
-  useEffect, useState, useCallback, useTransition, useMemo,
+  useEffect, useState, useCallback, useMemo, useDeferredValue,
 } from 'react';
 import ContactsService from '../../services/ContactsService';
 import toast from '../../utils/toast';
@@ -14,13 +14,12 @@ export default function useHome() {
   const [isLoadingDelete, setIsLoadingDelete] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState('');
-  const [searchTermDefered, setSearchTermDefered] = useState('');
 
-  const [isPending, startTransition] = useTransition();
+  const deferredSearchTerm = useDeferredValue(searchTerm);
 
   const filteredContacts = useMemo(() => contacts.filter((contact) => (
-    contact.name.toLowerCase().includes(searchTermDefered.toLowerCase())
-  )), [searchTermDefered, contacts]);
+    contact.name.toLowerCase().includes(deferredSearchTerm.toLowerCase())
+  )), [deferredSearchTerm, contacts]);
 
   const loadContacts = useCallback(async () => {
     try {
@@ -46,9 +45,6 @@ export default function useHome() {
   function handleChangeSearchTerm(event) {
     const { value } = event.target;
     setSearchTerm(value);
-    startTransition(() => {
-      setSearchTermDefered(value);
-    });
   }
 
   function handleTryAgain() {
@@ -92,7 +88,6 @@ export default function useHome() {
   }
 
   return {
-    isPending,
     isLoading,
     isDeleteModalVisible,
     isLoadingDelete,
