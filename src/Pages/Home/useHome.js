@@ -1,5 +1,5 @@
 import {
-  useEffect, useState, useCallback, useTransition,
+  useEffect, useState, useCallback, useTransition, useMemo,
 } from 'react';
 import ContactsService from '../../services/ContactsService';
 import toast from '../../utils/toast';
@@ -7,19 +7,20 @@ import toast from '../../utils/toast';
 export default function useHome() {
   const [contacts, setContacts] = useState([]);
   const [orderBy, setOrderBy] = useState('ASC');
-  const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [contactBeingDeleted, setContactBeingDeleted] = useState(null);
   const [isLoadingDelete, setIsLoadingDelete] = useState(false);
-  const [filteredContacts, setFilteredContacts] = useState([]);
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTermDefered, setSearchTermDefered] = useState('');
 
   const [isPending, startTransition] = useTransition();
 
-  // const filteredContacts = useMemo(() => contacts.filter((contact) => (
-  //   contact.name.toLowerCase().includes(searchTerm.toLowerCase())
-  // )), [searchTerm, contacts]);
+  const filteredContacts = useMemo(() => contacts.filter((contact) => (
+    contact.name.toLowerCase().includes(searchTermDefered.toLowerCase())
+  )), [searchTermDefered, contacts]);
 
   const loadContacts = useCallback(async () => {
     try {
@@ -28,7 +29,6 @@ export default function useHome() {
       // const contactsList = []; await ContactsService.listContacts(orderBy);
       setHasError(false);
       setContacts(contactsList);
-      setFilteredContacts(contactsList);
     } catch (error) {
       // if (error instanceof APIError) {}
       // eslint-disable-next-line no-console
@@ -47,9 +47,7 @@ export default function useHome() {
     const { value } = event.target;
     setSearchTerm(value);
     startTransition(() => {
-      setFilteredContacts(contacts.filter((contact) => (
-        contact.name.toLowerCase().includes(value.toLowerCase())
-      )));
+      setSearchTermDefered(value);
     });
   }
 
