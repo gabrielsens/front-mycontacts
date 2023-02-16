@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import ContactsService from '../../../services/ContactsService';
 import toast from '../../../utils/toast';
@@ -9,7 +9,7 @@ import Presentation from './Presentation';
 
 export default function Container() {
   const { id } = useParams();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(true);
   const [contactName, setContactName] = useState('');
@@ -32,7 +32,7 @@ export default function Container() {
         });
       } catch {
         safeAsyncAction(() => {
-          history.push('/');
+          navigate('/');
           toast({
             type: 'danger',
             text: 'Contato não encontrado',
@@ -42,7 +42,7 @@ export default function Container() {
     }
 
     loadContact();
-  }, [id, history, safeAsyncAction]);
+  }, [id, navigate, safeAsyncAction]);
 
   async function handleSubmit(contact) {
     try {
